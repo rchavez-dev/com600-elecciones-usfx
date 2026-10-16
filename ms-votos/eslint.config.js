@@ -10,7 +10,9 @@ module.exports = [
         module: "readonly",
         test: "readonly",
         expect: "readonly",
-        describe: "readonly"
+        describe: "readonly",
+        process: "readonly",
+        console: "readonly"
       }
     },
 
