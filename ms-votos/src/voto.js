@@ -7,7 +7,7 @@ function validarVoto(voto) {
     throw new Error("La eleccion es obligatoria");
   }
 
-  if (!voto.candidatoId) {
+  if (voto.candidatoId) {
     throw new Error("El candidato es obligatorio");
   }
 
