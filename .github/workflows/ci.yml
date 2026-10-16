@@ -1,0 +1,51 @@
+name: CI ms-votos
+
+on:
+  push:
+    paths:
+      - "ms-votos/**"
+      - ".github/workflows/ci.yml"
+
+  pull_request:
+    paths:
+      - "ms-votos/**"
+      - ".github/workflows/ci.yml"
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ms-votos
+
+    steps:
+      - name: Traer código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: ms-votos/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Análisis estático
+        run: npx eslint src tests --max-warnings 0
+
+      - name: Ejecutar pruebas
+        run: npm test
+
+      - name: Generar cobertura
+        run: npm run test:cov
+
+      - name: Publicar cobertura como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-ms-votos-${{ github.sha }}
+          path: ms-votos/coverage/
+          retention-days: 7
