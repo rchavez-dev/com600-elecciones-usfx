@@ -1,4 +1,3 @@
-const variableSinUsar = "prueba";
 function validarVoto(voto) {
   if (!voto) {
     throw new Error("El voto es obligatorio");
